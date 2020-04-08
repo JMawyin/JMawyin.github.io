@@ -104,7 +104,7 @@ document.getElementById('array_b').addEventListener('click', square_array);
 
     $.ajax({
         type: "GET",
-        url: "https://raw.githubusercontent.com/JMawyin/MSDS2020-608/master/presidents.csv",
+        url: "presidents.csv",
         success: function (data) {
             $('body').append(arrayToTable(Papa.parse(data).data));
         }
