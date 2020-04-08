@@ -1,1 +1,162 @@
-test.html
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<html>
+  <head>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <link rel='stylesheet' href='style.css'>
+  </head>
+<body>
+
+
+
+<h1>DATA 608 - Module 5 - Java Script</h1>
+
+<h2> Jose A. Mawyin</h2>
+
+<!-- **************************************** -->
+
+<h3>1.Create a function to reverse any word that you type in. This can be typed into either an input box or an alert box, and then print the result in a box or on the webpage.</h3>
+
+
+
+<hr>
+Word to reverse: <input id="word">
+<button id="say">Click me to reverse the word!</button>
+<hr>
+
+<div id="result"></div>
+ 
+<script>
+function say_hi() {
+    var word = document.getElementById('word').value;
+    var r_word = word.split("").reverse().join("");
+    
+ 
+    var html = 'The reverse of <b>' + word + '</b> ' + ' is <b>' + r_word + '</b>';
+ 
+    document.getElementById('result').innerHTML = html;
+}
+ 
+document.getElementById('say').addEventListener('click', say_hi);
+</script>
+
+<!-- **************************************** -->
+
+
+<h3>2.Create a function that takes an input number, and prints a table with the first 20 multiples of the number, in order 5x4.</h3>
+
+
+
+<!-- **************************************** -->
+<hr>
+<p>Let's create an array of 5x4 items where every item is n * i where i goes from 1 to 20.</p>    
+<hr>
+Enter number (n) to create array: <input id="s_number">
+<button id='array_b'>Click me to create the array!</button>
+<hr>  
+<div id="s_array"></div>
+<hr>
+    
+<script>  
+function square_array() {
+    var user_number_s = document.getElementById('s_number').value;
+    var points = new Array(20);
+    for (var i = 0; i < 20; i++) {
+                points[i] = (i+ 1) * user_number_s; //This populates the array.  +1 is necessary because arrays are 0 index based and you want to store 1-100 in it, NOT 0-99.
+            }
+    /*var points_2 = points.map(function(element) { return element*2));*/
+    for (var i = 0; i < points.length; i++) {
+                console.log(points[i] * 5); //This prints the values that you stored in the array
+            }
+  // DRAW THE HTML TABLE
+  var perrow = 4, // 3 items per row
+      html = "<table><tr>";
+
+  // Loop through array and add table cells
+  for (var i=0; i<points.length; i++) {
+    html += "<td>" + points[i] + "</td>";
+    // Break into next row
+    var next = i+1;
+    if (next%perrow==0 && next!=points.length) {
+      html += "</tr><tr>";
+    }
+  }
+  html += "</tr></table>";
+    document.getElementById('s_array').innerHTML = html;
+}
+document.getElementById('array_b').addEventListener('click', square_array);
+</script>
+
+<!-- **************************************** -->
+<h3>3.Write a function to load the presidents.csv data and display the data as an html table (you may use a cdv parser from any available library, though I encourage you to try the d3 one).</h3>
+    
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.js"></script>
+<script>
+    function arrayToTable(tableData) {
+        var table = $('<table></table>');
+        $(tableData).each(function (i, rowData) {
+            var row = $('<tr></tr>');
+            $(rowData).each(function (j, cellData) {
+                row.append($('<td>'+cellData+'</td>'));
+            });
+            table.append(row);
+        });
+        return table;
+    }
+
+    $.ajax({
+        type: "GET",
+        url: "presidents.csv",
+        success: function (data) {
+            $('body').append(arrayToTable(Papa.parse(data).data));
+        }
+    });
+</script>
+    
+<!-- **************************************** -->  
+<script type='text/javascript' src='script.js'></script>
+<script>
+      
+var tabulate = function (data,columns) {
+  var table = d3.select('body').append('table')
+	var thead = table.append('thead')
+	var tbody = table.append('tbody')
+
+	thead.append('tr')
+	  .selectAll('th')
+	    .data(columns)
+	    .enter()
+	  .append('th')
+	    .text(function (d) { return d })
+
+	var rows = tbody.selectAll('tr')
+	    .data(data)
+	    .enter()
+	  .append('tr')
+
+	var cells = rows.selectAll('td')
+	    .data(function(row) {
+	    	return columns.map(function (column) {
+	    		return { column: column, value: row[column] }
+	      })
+      })
+      .enter()
+    .append('td')
+      .text(function (d) { return d.value })
+
+  return table;
+}
+
+d3.csv('https://raw.githubusercontent.com/JMawyin/JMawyin.github.io/master/presidents.csv',function (data) {
+	var columns = ['Name','Height','Weight']
+  tabulate(data,columns)
+})      
+      
+      </script> 
+    
+</body>
+</html>
+
+
+<!--https://www.freecodecamp.org/news/how-to-reverse-a-string-in-javascript-in-3-different-ways-75e4763c68cb/ -->
