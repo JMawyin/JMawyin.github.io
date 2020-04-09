@@ -107,7 +107,7 @@ document.getElementById('array_b').addEventListener('click', square_array);
 
     $.ajax({
         type: "GET",
-        url: "https://raw.githubusercontent.com/JMawyin/JMawyin.github.io/master/presidents.csv",
+        url: "http://raw.githubusercontent.com/JMawyin/JMawyin.github.io/master/presidents.csv",
         success: function (data) {
             $('body').append(arrayToTable(Papa.parse(data).data));
         }
