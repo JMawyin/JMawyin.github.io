@@ -148,7 +148,7 @@ var tabulate = function (data,columns) {
   return table;
 }
 
-d3.csv('https://raw.githubusercontent.com/JMawyin/JMawyin.github.io/master/presidents.csv',function (data) {
+d3.csv('http://raw.githubusercontent.com/JMawyin/JMawyin.github.io/master/presidents.csv',function (data) {
 	var columns = ['Name','Height','Weight']
   tabulate(data,columns)
 })      
